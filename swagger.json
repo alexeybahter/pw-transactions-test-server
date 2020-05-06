@@ -1,0 +1,33 @@
+{
+  "info": {
+    "title": "pw-server-swagger",
+    "version": "1.0.0",
+    "description": "pw-server swagger"
+  },
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "authorization"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "auth"
+    },
+    {
+      "name": "users",
+      "description": "users"
+    }
+  ],
+  "paths": {}
+}
