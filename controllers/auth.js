@@ -12,18 +12,18 @@ const singIn = async (req, res, next) => {
     });
 
     if (!user) {
-      throw { status: 403, param: 'email', message: 'User login wrong' };
+      throw { status: 403, param: 'email', msg: 'User login wrong' };
     }
 
     if (!utils.hash.compare(req.body.password, user.password)) {
-      throw { status: 403, param: 'password', message: 'Password is wrong' };
+      throw { status: 403, param: 'password', msg: 'Password is wrong' };
     }
 
     const responsePayload = utils.createTokensPair(user, USER_FIELDS_TOKEN);
 
     return res.json(responsePayload);
   } catch (err) {
-    next(err);
+    return res.status(403).json({ errors: [err] });
   }
 };
 
