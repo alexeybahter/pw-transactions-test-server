@@ -1,4 +1,5 @@
 const moment = require('moment');
+const { Worker } = require('worker_threads');
 const transactionService = require('../db/services/transactions');
 const userService = require('../db/services/users');
 
@@ -26,6 +27,65 @@ const getTransactions = async (req, res, next) => {
     };
 
     return res.json({ status: 200, message: 'success', ...response });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getTransactionsSums = async (req, res, next) => {
+  try {
+    console.time('sum');
+    const transactions = await transactionService.findAllTransactions();
+
+    const transactions_sums = transactions.reduce((acc, transaction) => {
+      acc.countSums += transaction.count;
+      return acc;
+    }, {countSums: 0});
+    console.timeEnd('sum');
+
+    return res.json({ status: 200, message: 'success', transactions_sums });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getTransactionsSumsWithWorker = async (req, res, next) => {
+  try {
+    const transactions = await transactionService.findAllTransactions();
+    console.time('sumWorker');
+
+    let myWorker;
+
+    initiateWorker();
+
+    function initiateWorker () {
+      let cb = (err, result) => {
+        if(err) { return console.error(err); }
+
+        console.timeEnd('sumWorker');
+        return res.json({ status: 200, message: 'success', countSum: result });
+      };
+      myWorker = startWorker(__dirname.slice(0, -12) + '/workers/transactionWorker.js', cb);
+
+      myWorker.postMessage({ multipleFactor: 2 });
+    }
+
+    function startWorker(path, cb) {
+      let w = new Worker(path, { workerData: {transactions, sum: 0} });
+
+      w.on('message', (msg) => {
+        cb(null, msg);
+      });
+
+      w.on('error', cb);
+
+      w.on('exit', (code) => {
+        if(code !== 0) {
+          console.error(new Error(`Worker stopped Code ${code}`))
+        }
+      });
+      return w;
+    }
   } catch (error) {
     next(error);
   }
@@ -73,5 +133,7 @@ const createTransaction = async (req, res, next) => {
 
 module.exports = {
   getTransactions,
+  getTransactionsSums,
+  getTransactionsSumsWithWorker,
   createTransaction,
 };

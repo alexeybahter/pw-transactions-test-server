@@ -2,6 +2,11 @@ const db = require('../models');
 
 module.exports = {
   createTransaction: params => db.transaction.create(params),
+  findAllTransactions: params => db.transaction.findAll({
+    raw: true,
+    nest: true,
+    ...params
+  }),
   findAllTransactionsAndPagination: ({
     id,
     page,

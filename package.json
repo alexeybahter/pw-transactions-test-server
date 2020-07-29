@@ -4,7 +4,7 @@
   "description": "Internal server for Fusion team",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon --experimental-worker server.js",
     "prestart": "node ./node_modules/.bin/swagger-jsdoc -d ./utils/swaggerInit.js",
     "test": "npm run lint && jest",
     "lint": "eslint . -c .eslintrc.js --ext .js,.jsx --ignore-path .gitignore",

@@ -37,7 +37,7 @@ const singUp = async (req, res, next) => {
         name,
         email,
         password,
-        pw_count: 500,
+        pw_count: 200000,
       },
     });
 

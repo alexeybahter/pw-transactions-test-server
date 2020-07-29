@@ -8,7 +8,7 @@ module.exports = {
     query('sort_item', 'Invalid sort_item')
       .optional()
       .isString()
-      .isIn(['count', 'sender_id', 'recipient_id', 'pw_count_resulted', 'date']),
+      .isIn(['count', 'sender_id', 'recipient_id', 'pw_count_resulted', 'date', 'id']),
     query('page', 'Invalid page').isInt({ gte: 0 }),
     query('per_page', 'Invalid per_page').isInt({ gte: 0 }),
     query('page', 'Page doesn\'t exists').exists()
