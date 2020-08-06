@@ -36,6 +36,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "@mtproto/core": "3.4.0",
     "body-parser": "^1.18.3",
     "change-case": "^3.0.2",
     "cookie-parser": "^1.4.3",
@@ -50,8 +51,10 @@
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "moment": "^2.22.2",
+    "node-telegram-bot-api": "^0.50.0",
     "path": "^0.12.7",
     "pg": "^7.4.3",
+    "prompts": "^2.3.2",
     "require-directory": "^2.1.1",
     "sequelize": "^4.38.0",
     "sequelize-cli": "^4.1.1",
